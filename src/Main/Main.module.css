@@ -1,0 +1,17 @@
+.formData{
+    display: flex;
+    gap:40px;
+    
+}
+.mainText h1{
+    font-size: 28px;
+    color: #0f152b;
+    padding-bottom: 20px;
+}
+.main{
+    padding-bottom: 3rem;
+    padding-left:1.5rem ;
+    padding-top: 1.5rem;
+    padding-right: 0px;
+    margin-right: 1.5rem;
+}

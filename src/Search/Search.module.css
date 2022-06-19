@@ -1,0 +1,27 @@
+.filter{
+    border: 1px solid #d4cece;
+    height: 40px;
+    display: flex;
+    flex-basis: 60%;
+}
+.filter input{
+    border: none;
+margin-left: 20px;
+    height: 100%;
+    width: 100%;
+}
+.searchIcon{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-right: 1px solid #d4cece;
+ height: 100%;
+padding: 20px;
+}
+.searchIcon i{
+    font-size: 16px;
+    color: #c0c0c0;
+}
+.filter input::placeholder{
+    color: #c0c0c0;
+}

@@ -1,0 +1,69 @@
+.carItem{
+    position: relative;
+    border-radius: 10px;
+    
+}
+.like{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border-radius: 50%;
+    border: 1px solid #7f828d;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    padding: 8px;
+}
+.like i{
+    color: #5c5f6f;
+    font-size: 14px;
+}
+.image{
+    border-bottom: 1px solid #dfdfdf;
+    height: 200px;
+    padding: 2rem;
+    
+}
+.image>img{
+    height: 100%;
+    width: 100%;
+}
+.strike{
+    text-decoration: line-through;
+    color: #b7b7bf;
+    font-size: 15px;
+}
+.vendorCode{
+    color: #bebebe;
+    font-size: 14px;
+}
+.carText{
+    padding: 20px;
+}
+.productName{
+    color: #616575;
+    font-size: 16px;
+}
+.price{
+    color: #bbb;
+    font-size: 14px;
+}
+.dollar{
+    color: #22273a;
+    font-size: 18px;
+}
+.addToCart{
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    background: #dd2d38;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 50%;
+}
+.addToCart i{
+    color: #fff;
+    font-size: 14px;
+}
