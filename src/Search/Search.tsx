@@ -6,6 +6,9 @@ function Search() {
 
   const setSear = (event: any) => {
     setSearch(event.target.value);
+    if(event.target.value===""){
+      product.search("")
+    }
   };
   const product = useContext(DataContext);
 
@@ -22,7 +25,7 @@ function Search() {
           name="search"
           onChange={setSear}
           onKeyPress={(e) =>
-            e.key === "Enter" ? product.search(search ? search : "") : null
+            e.key === "Enter" ? product.search(search ? search : "") :null
           }
         />
       </div>

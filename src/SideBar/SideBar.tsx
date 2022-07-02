@@ -1,34 +1,32 @@
 import React, { useState, useContext } from "react";
 import styles from "./SideBar.module.css";
-import Slider from "@mui/material/Slider";
 import { DataContext } from "../Context/Context";
-function valuetext(number: number) {
-  return `${number}°C`;
-}
-interface Tags {
-  price: number[];
-  theme: string[];
-  Age: string[];
-}
-interface Theme {
-  space: boolean;
-  ninja: boolean;
-  transport: boolean;
-  building: boolean;
-  homes: boolean;
-}
-interface Age {
-  "Up to a year": boolean;
-  "1year-2years": boolean;
-  "3 years -5 years": boolean;
-  "6 years -5 years": boolean;
-  "Older than 12 years": boolean;
-}
-
+import { TagType, Theme, Age } from "../types";
+import Slider from "../Slider/Slider";
+const themesArray = [
+  { space: "Space (44)" },
+  { ninja: "Ninja (44)" },
+  { transport: "Transport (44)" },
+  { building: "Building (44)" },
+  { homes: "Homes (44)" },
+];
+const ageArray = [
+  { "Up to a year": "Up to a year" },
+  { "1year-2years": "1 year-2 years" },
+  { "3 years -5 years": "3 years -5 years" },
+  { "6 years -5 years": "6 years -5 years" },
+  { "Older than 12 years": "Older than 12 years" },
+];
 function SideBar() {
   const Tags = useContext(DataContext);
-  const [value, setValue] = React.useState<number[]>([20, 37]);
-  const [tags, setTags] = useState<Tags>({ price: [], theme: [], Age: [] });
+  const [minPrice, set_minValue] = useState(0);
+  const [maxPrice, set_maxValue] = useState(0);
+  const [tags, setTags] = useState<TagType>({
+    minPrice: minPrice,
+    maxPrice: maxPrice,
+    Theme: [],
+    Age: [],
+  });
   const [theme, setTheme] = useState<Theme>({
     space: false,
     ninja: false,
@@ -43,22 +41,22 @@ function SideBar() {
     "6 years -5 years": false,
     "Older than 12 years": false,
   });
-
-  const handleChange = async (Event: any, number: any) => {
-    await setValue(number);
-    await setTags((prevValue) => ({ ...prevValue, price: [...value] }));
+  const changePrice = (minPrice: number, maxPrice: number) => {
+    set_minValue(minPrice);
+    set_maxValue(maxPrice);
+    setTags(prevValue=>({...prevValue,minPrice:minPrice,maxPrice:maxPrice}))
   };
-  const changeTheme = async (event: any) => {
+  const changeTheme = (event: any) => {
     const { name, checked } = event.target;
     if (checked) {
       setTags((prevValue) => ({
         ...prevValue,
         theme:
-          prevValue.theme.length === 0 ? [name] : [...prevValue.theme, name],
+          prevValue.Theme.length === 0 ? [name] : [...prevValue.Theme, name],
       }));
     }
 
-    await setTheme((preValue) => {
+    setTheme((preValue) => {
       return {
         ...preValue,
         [name]: checked,
@@ -80,23 +78,22 @@ function SideBar() {
       };
     });
   };
-  const reset = async () => {
-    await setValue([0, 0]);
-    await setTheme({
+  const reset = () => {
+    setTheme({
       space: false,
       ninja: false,
       transport: false,
       building: false,
       homes: false,
     });
-    await setAge({
+    setAge({
       "Up to a year": false,
       "1year-2years": false,
       "3 years -5 years": false,
       "6 years -5 years": false,
       "Older than 12 years": false,
     });
-    await applyFilter();
+    applyFilter();
   };
   const applyFilter = () => {
     Tags.filterApply(tags);
@@ -114,157 +111,75 @@ function SideBar() {
               <div className={styles.priceValue}>
                 <div className={styles.minRange}>
                   <p>
-                    From <span>{value[0]}</span>$
+                    From <span>{minPrice}</span>$
                   </p>
                 </div>
                 <div className={styles.maxRange}>
                   <p>
-                    Upto <span>{value[1]}</span>$
+                    Upto <span>{maxPrice}</span>$
                   </p>
                 </div>
               </div>
-              <div className={styles.priceRange}>
+              <div style={{ width: "100%", background: "red" }}>
                 <Slider
-                  getAriaLabel={() => "Temperature range"}
-                  value={value}
-                  onChange={handleChange}
-                  valueLabelDisplay="auto"
-                  getAriaValueText={valuetext}
                   min={0}
-                  max={1000}
-                  sx={{
-                    color: "#df3238",
-                    "& .MuiSlider-rail": {
-                      backgroundColor: "#e6e6e6",
-                    },
-                  }}
+                  max={10000}
+                  step={1}
+                  minRange={100}
+                  onchange={changePrice}
                 />
               </div>
             </li>
             <li>
               <div className={styles.Theme}>
                 <p>Theme</p>
-                <i className="fa-solid fa-angle-up"></i>
+                <i className="fa-solid fa-angle-up" />
               </div>
               <div className={styles.themeBody}>
-                <label htmlFor="space" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="space"
-                    name="space"
-                    checked={theme.space}
-                    onChange={(event) => changeTheme(event)}
-                  />
-                  <span>Space (44)</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="ninja" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="ninja"
-                    name="ninja"
-                    checked={theme.ninja}
-                    onChange={(event) => changeTheme(event)}
-                  />
-                  <span>Ninja (44)</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="transport" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="transport"
-                    name="transport"
-                    checked={theme.transport}
-                    onChange={(event) => changeTheme(event)}
-                  />
-                  <span>Transport (44)</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="building" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="building"
-                    name="building"
-                    checked={theme.building}
-                    onChange={(event) => changeTheme(event)}
-                  />
-                  <span>Building (44)</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="homes" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="homes"
-                    name="homes"
-                    checked={theme.homes}
-                    onChange={(event) => changeTheme(event)}
-                  />
-                  <span>Homes (44)</span>
-                  <span className={styles.checkmark}></span>
-                </label>
+                {themesArray.map((themeName, index) => {
+                  const key = Object.keys(themeName).toString();
+                  return (
+                    <div key={index}>
+                      <label htmlFor={key} className={styles.cont}>
+                        <input
+                          type="checkbox"
+                          id={key}
+                          name={key}
+                          checked={theme[key]}
+                          onChange={(event) => changeTheme(event)}
+                        />
+                        <span>{themeName[key]}</span>
+                        <span className={styles.checkmark}></span>
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             </li>
             <li>
               <div className={styles.age}>
                 <p>Age</p>
-                <i className="fa-solid fa-angle-up"></i>
+                <i className="fa-solid fa-angle-up" />
               </div>
               <div className={styles.checkAge}>
-                <label htmlFor="year" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="year"
-                    checked={age["Up to a year"]}
-                    name="Up to a year"
-                    onChange={changeAge}
-                  />
-                  <span>Up to a year</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="year1" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="year1"
-                    checked={age["1year-2years"]}
-                    name="1year-2years"
-                    onChange={changeAge}
-                  />
-                  <span>1 year-2 years</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="year2" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="year2"
-                    checked={age["3 years -5 years"]}
-                    name="3 years -5 years"
-                    onChange={changeAge}
-                  />
-                  <span>3 years-5 years</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="year3" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="year3"
-                    checked={age["6 years -5 years"]}
-                    name="6 years -5 years"
-                    onChange={changeAge}
-                  />
-                  <span>6 years-5 years</span>
-                  <span className={styles.checkmark}></span>
-                </label>
-                <label htmlFor="year4" className={styles.cont}>
-                  <input
-                    type="checkbox"
-                    id="year4"
-                    checked={age["Older than 12 years"]}
-                    name="Older than 12 years"
-                    onChange={changeAge}
-                  />
-                  <span>Older than 12 years</span>
-                  <span className={styles.checkmark}></span>
-                </label>
+                {ageArray.map((Age, index) => {
+                  const key = Object.keys(Age).toString();
+                  return (
+                    <div key={index}>
+                      <label htmlFor={key} className={styles.cont}>
+                        <input
+                          type="checkbox"
+                          id={key}
+                          checked={age[key]}
+                          name={key}
+                          onChange={changeAge}
+                        />
+                        <span>{Age[key]}</span>
+                        <span className={styles.checkmark}></span>
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             </li>
             <li>
@@ -285,7 +200,7 @@ function SideBar() {
             <li>
               <div className={styles.applyFilter}>
                 <button onClick={applyFilter}>Apply Filter</button>
-                <i className="fa-solid fa-trash-can" onClick={reset}></i>
+                <i className="fa-solid fa-trash-can" onClick={reset} />
               </div>
             </li>
           </ul>

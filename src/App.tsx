@@ -5,12 +5,7 @@ import SideBar from "./SideBar/SideBar";
 import Main from "./Main/Main";
 import { DataContext } from "./Context/Context";
 import data from "./data";
-
-interface Tags {
-  price: number[];
-  theme: string[];
-  Age: string[];
-}
+import { TagType } from "./types";
 interface Data {
   id: string;
   "Vendor Code": string;
@@ -22,26 +17,30 @@ interface Data {
 
 function App() {
   const [product, setProduct] = useState<Data[]>(data); //type mention
-  const [tags, setPriceFilter] = useState<Tags>({
-    price: [],
-    theme: [],
+  const [tags, setTagFilter] = useState<TagType>({
+    minPrice: 0,
+    maxPrice: 0,
+    Theme: [],
     Age: [],
   });
   const [filterApply, setFilterApply] = useState<boolean>(false);
   const [itemsPerPage, setitemsPerPage] = useState<number>(6);
   const [itemOffset, setitemOffset] = useState<number>(0);
-  const applyFilter = (value: Tags) => {
+  const applyFilter = (value: TagType) => {
     setFilterApply(true);
-    setPriceFilter(value);
+    setTagFilter(value);
   };
   if (filterApply) {
     setFilterApply(false);
     setProduct(
-      data.filter((e) => {
-        const price = e.Price;
-        const priceRange = tags.price;
-        if (priceRange[0] < price && price < priceRange[1]) {
+      data.filter((data) => {
+        const price = data.Price;
+        const minPrice = tags.minPrice;
+        const maxPrice = tags.maxPrice;
+        if (minPrice < price && price < maxPrice) {
           return true;
+        } else {
+          return false;
         }
       })
     );
@@ -64,6 +63,8 @@ function App() {
           return true;
         } else if (regex.test(e.Title)) {
           return true;
+        } else {
+          return false;
         }
       })
     );
@@ -92,7 +93,12 @@ function App() {
             <SideBar />
           </div>
           <div className="col-lg-9">
-            <Main tags={tags} />
+            <Main
+              minPrice={tags.minPrice}
+              maxPrice={tags.maxPrice}
+              themes={tags.Theme}
+              ages={tags.Age}
+            />
           </div>
         </div>
       </div>

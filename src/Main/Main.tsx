@@ -4,43 +4,38 @@ import Search from "../Search/Search";
 import Popular from "../Popular/Popular";
 import Content from "../Content/Content";
 import Tag from "../Tags/Tags";
-
 import Pagination from "../Pagination/Pagination";
-
-interface Tags {
-  price: number[];
-  theme: string[];
-  Age: string[];
-}
-interface Props {
-  tags: Tags;
-}
-//same structure
-function Main(props: Props) {
-  const { tags } = props;
+import { TagPropTypes } from "../types";
+import { Route,Routes } from "react-router-dom";
+import ProductDetail from "../ProductDetail/ProductDetail";
+function Main(tags :TagPropTypes) {
+  const { minPrice, maxPrice, themes, ages } = tags;
 
   return (
     <>
-      <div className={styles.main}>
+     <Routes>
+      <Route path="/" element={
+        <>
+         <div className={styles.main}>
         <div className={styles.mainText}>
           <h1>Catalog</h1>
         </div>
         <div className={styles.formData}>
           <Search />
-
           <Popular />
         </div>
-        {tags.price.length !== 0 ||
-        tags.theme.length !== 0 ||
-        tags.Age.length !== 0 ? (
-          <Tag tags={tags} />
-        ) : null}
-
+        <Tag minPrice={minPrice} maxPrice={maxPrice} themes={themes} ages={ages} />
         <div className="mt-5">
           <Content />
         </div>
       </div>
       <Pagination totalPage={6} />
+        </>
+      }>
+        <Route path="/:productId" element={<ProductDetail/>}/>
+      </Route>
+    </Routes>
+     
     </>
   );
 }

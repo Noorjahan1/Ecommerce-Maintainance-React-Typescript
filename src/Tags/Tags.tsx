@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Tags.module.css";
-// import { DataContext } from '../Context/Context';
-// import { display } from '@mui/system';
-interface Tags {
-  price: number[];
-  theme: string[];
-  Age: string[];
-}
-interface Props {
-  tags: Tags;
-}
-
-const Tag = (prop: Props) => {
-  // const Ta=useContext(DataContext);
-  const { tags } = prop;
+import { TagPropTypes } from "../types";
+const Tag = (tags:TagPropTypes) => {
+  const {minPrice,maxPrice,themes,ages }=tags
+  
   const [priceTagBool, setPriceTag] = useState(false);
 
-  const hideDisplay = (event: any, value: any, obj: string) => {
+  const hideDisplay = (event: any, obj: string) => {
     if (obj === "price") {
       setPriceTag(true);
     } else if (obj !== "price") {
@@ -24,50 +14,49 @@ const Tag = (prop: Props) => {
     }
   };
   useEffect(() => {
-    setPriceTag(false);
+    setPriceTag(true);
   }, [tags]);
-
+ 
   return (
     <>
       <div className={styles.tag}>
-        {tags.price.length !== 0 ? (
-          <>
+
             <div
               className={styles.tagItem}
               style={{ display: priceTagBool ? "none" : "inherit" }}
             >
-              <h3>{`Price : From ${tags.price[0]} to ${tags.price[1]}`}</h3>
+              <h3>{`Price : From ${minPrice} to ${maxPrice}`}</h3>
               <i
                 className="fa-solid fa-xmark"
-                onClick={(event) => hideDisplay(event, tags.price, "price")}
+                onClick={(event) => hideDisplay(event,  "price")}
               ></i>
             </div>
-          </>
-        ) : null}
-        {tags.theme.length !== 0 ? (
+         
+       
+        {themes.length !== 0 ? (
           <>
-            {tags.theme.map((e) => {
+            {themes.map((theme) => {
               return (
                 <div className={styles.tagItem}>
-                  <h3>{e}</h3>
+                  <h3>{theme}</h3>
                   <i
                     className="fa-solid fa-xmark"
-                    onClick={(event) => hideDisplay(event, e, "theme")}
+                    onClick={(event) => hideDisplay(event,  "theme")}
                   ></i>
                 </div>
               );
             })}
           </>
         ) : null}
-        {tags.Age.length !== 0 ? (
+        {ages.length !== 0 ? (
           <>
-            {tags.Age.map((e) => {
+            {ages.map((age) => {
               return (
                 <div className={styles.tagItem}>
-                  <h3>{e}</h3>
+                  <h3>{age}</h3>
                   <i
                     className="fa-solid fa-xmark"
-                    onClick={(event) => hideDisplay(event, e, "Age")}
+                    onClick={(event) => hideDisplay(event, "Age")}
                   ></i>
                 </div>
               );
