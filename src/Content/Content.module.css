@@ -56,12 +56,12 @@
     position: absolute;
     bottom: 20px;
     right: 10px;
-    background: #dd2d38;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     border-radius: 50%;
+    cursor: pointer;
 }
 .addToCart i{
     color: #fff;

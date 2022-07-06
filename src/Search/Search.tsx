@@ -1,32 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { DataContext } from "../Context/Context";
 import styles from "./Search.module.css";
 function Search() {
-  const [search, setSearch] = useState<string>();
-
-  const setSear = (event: any) => {
-    setSearch(event.target.value);
-    if(event.target.value===""){
-      product.search("")
-    }
-  };
   const product = useContext(DataContext);
-
   return (
     <>
       <div className={styles.filter}>
         <div className={`${styles.searchIcon}`}>
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <i className="fa-solid fa-magnifying-glass"/>
         </div>
 
         <input
-          type="text"
+          type="search"
           placeholder="Search among 100+ products"
           name="search"
-          onChange={setSear}
-          onKeyPress={(e) =>
-            e.key === "Enter" ? product.search(search ? search : "") :null
-          }
+          onChange={(event)=> product.search(event.target.value)}
         />
       </div>
     </>

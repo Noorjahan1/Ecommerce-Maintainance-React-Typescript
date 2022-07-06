@@ -1,68 +1,52 @@
-import React, { useState, useEffect } from "react";
 import styles from "./Tags.module.css";
 import { TagPropTypes } from "../types";
-const Tag = (tags:TagPropTypes) => {
-  const {minPrice,maxPrice,themes,ages }=tags
-  
-  const [priceTagBool, setPriceTag] = useState(false);
-
-  const hideDisplay = (event: any, obj: string) => {
-    if (obj === "price") {
-      setPriceTag(true);
-    } else if (obj !== "price") {
-      event.target.parentElement.style.display = "none";
-    }
+import { useContext, useEffect, useState } from "react";
+import { DataContext } from "../Context/Context";
+const Tag = (tags: TagPropTypes) => {
+  const product = useContext(DataContext);
+  const { minPrice, maxPrice, themes, ages } = tags;
+  const tagArray = [...themes, ...ages];
+  const [prices, setPrices] = useState([minPrice, maxPrice]);
+  const addPrices = (minPrice, maxPrice) => {
+    setPrices([minPrice, maxPrice]);
+  };
+  const removePrice = () => {
+    setPrices([]);
+    product.search("");
   };
   useEffect(() => {
-    setPriceTag(true);
-  }, [tags]);
- 
+    addPrices(minPrice, maxPrice);
+  }, [minPrice, maxPrice]);
+
+  const hideDisplay = (event: any) => {
+    event.target.parentElement.style.display = "none";
+  };
+
   return (
     <>
       <div className={styles.tag}>
+        {prices.length !== 0 ? (
+          minPrice !== 0 && maxPrice !== 0 ? (
+            <div className={styles.tagItem}>
+              <h3>{`Price : From ${prices[0]} to ${prices[1]}`}</h3>
 
-            <div
-              className={styles.tagItem}
-              style={{ display: priceTagBool ? "none" : "inherit" }}
-            >
-              <h3>{`Price : From ${minPrice} to ${maxPrice}`}</h3>
+              <i className="fa-solid fa-xmark" onClick={removePrice} />
+            </div>
+          ) : null
+        ) : null}
+
+        {tagArray.map((tag) => (
+          <>
+            <div className={styles.tagItem}>
+              <h3>{tag}</h3>
+
               <i
                 className="fa-solid fa-xmark"
-                onClick={(event) => hideDisplay(event,  "price")}
-              ></i>
+                onClick={(event) => hideDisplay(event)}
+              />
             </div>
-         
-       
-        {themes.length !== 0 ? (
-          <>
-            {themes.map((theme) => {
-              return (
-                <div className={styles.tagItem}>
-                  <h3>{theme}</h3>
-                  <i
-                    className="fa-solid fa-xmark"
-                    onClick={(event) => hideDisplay(event,  "theme")}
-                  ></i>
-                </div>
-              );
-            })}
           </>
-        ) : null}
-        {ages.length !== 0 ? (
-          <>
-            {ages.map((age) => {
-              return (
-                <div className={styles.tagItem}>
-                  <h3>{age}</h3>
-                  <i
-                    className="fa-solid fa-xmark"
-                    onClick={(event) => hideDisplay(event, "Age")}
-                  ></i>
-                </div>
-              );
-            })}
-          </>
-        ) : null}
+        ))}
       </div>
     </>
   );

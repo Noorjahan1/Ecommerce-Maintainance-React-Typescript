@@ -1,21 +1,38 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar/Navbar";
 import "./App.css";
-import SideBar from "./SideBar/SideBar";
 import Main from "./Main/Main";
 import { DataContext } from "./Context/Context";
 import data from "./data";
 import { TagType } from "./types";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./Layout/Layout";
+import Cart from "./Cart/Cart"
+import Product from "./ProductDetail/ProductDetail"
+import Checkout from "./Checkout/Checkout";
+import {
+  Elements,
+} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 interface Data {
   id: string;
   "Vendor Code": string;
   Title: string;
-  Price: number;
+  price: number;
   "Prev Price": number;
   img: string;
+  description:string
 }
 
 function App() {
+  const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+
+  const ELEMENTS_OPTIONS = {
+  fonts: [
+    {
+      cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+    },
+  ],
+};
   const [product, setProduct] = useState<Data[]>(data); //type mention
   const [tags, setTagFilter] = useState<TagType>({
     minPrice: 0,
@@ -30,11 +47,12 @@ function App() {
     setFilterApply(true);
     setTagFilter(value);
   };
+  
   if (filterApply) {
     setFilterApply(false);
     setProduct(
       data.filter((data) => {
-        const price = data.Price;
+        const price = data.price;
         const minPrice = tags.minPrice;
         const maxPrice = tags.maxPrice;
         if (minPrice < price && price < maxPrice) {
@@ -59,7 +77,7 @@ function App() {
       data.filter((e) => {
         if (regex.test(e["Vendor Code"])) {
           return true;
-        } else if (regex.test(e.Price.toString())) {
+        } else if (regex.test(e.price.toString())) {
           return true;
         } else if (regex.test(e.Title)) {
           return true;
@@ -86,9 +104,28 @@ function App() {
         Page: Math.ceil(product.length / itemsPerPage),
       }}
     >
-      <div className="container conatiner-body my-5">
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={  <Main
+              minPrice={tags.minPrice}
+              maxPrice={tags.maxPrice}
+              themes={tags.Theme}
+              ages={tags.Age}
+            />} /> 
+          <Route path="/main" element={  <Main
+              minPrice={tags.minPrice}
+              maxPrice={tags.maxPrice}
+              themes={tags.Theme}
+              ages={tags.Age}
+            />} /> 
+          <Route path="/:productId" element={ <Product/>} /> 
+          <Route path="/shoppingCart" element={  <Cart/> }/>
+          <Route path="/Checkout" element={ <Elements stripe={stripePromise}  options={ELEMENTS_OPTIONS}> <Checkout/></Elements> }/> 
+        </Route>
+      </Routes>
+      {/* <div className="container conatiner-body my-5">
         <Navbar />
-        <div className={`row `}>
+        <div className="row">
           <div className="col-lg-3">
             <SideBar />
           </div>
@@ -101,7 +138,7 @@ function App() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </DataContext.Provider>
   );
 }

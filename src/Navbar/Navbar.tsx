@@ -3,7 +3,14 @@ import styles from "./Navbar.module.css";
 import logo from "../images/logo.jpg";
 import hearIcon from "../images/heartIcon.jpg";
 import products from "../images/products.jpg";
+import { Link } from "react-router-dom";
+import { useCart } from "react-use-cart";
 export default function Logo() {
+    const {
+    isEmpty,
+    totalUniqueItems,
+    cartTotal
+  } = useCart();
   return (
     <>
       <div className={`${styles.firstNavContainer} `}>
@@ -68,7 +75,7 @@ export default function Logo() {
                       {" "}
                       <i
                         className={` ${styles.avater} fa-solid fa-user p-2`}
-                      ></i>{" "}
+                      />
                       Alexander
                     </h3>
                   </div>
@@ -82,12 +89,14 @@ export default function Logo() {
         <div className="row">
           <div className="col-lg-3">
             <div className={`${styles.secondNavItem}`}>
-              <h3>
-                <i className="fa-solid fa-house p-2"></i>
-                Main Page
-                <i className="fa-solid fa-angle-right p-2"></i>
-                <span className={styles.catalog}> Catalog</span>
-              </h3>
+              <Link to="/main">
+                <h3>
+                  <i className="fa-solid fa-house p-2"></i>
+                  Main Page
+                  <i className="fa-solid fa-angle-right p-2"></i>
+                  <span className={styles.catalog}> Catalog</span>
+                </h3>
+              </Link>
             </div>
           </div>
           <div className="col-lg-3">
@@ -116,13 +125,19 @@ export default function Logo() {
           </div>
           <div className="col-lg-3">
             <div className={`${styles.secondNavItem}`}>
-              <h3>
-                <img src={products} alt="heart" className={styles.heartIcon} />2
-                Products-$10000
-                <i
-                  className={`fa-solid fa-arrow-right ${styles.arrowRight}`}
-                ></i>
-              </h3>
+              <Link to="/shoppingCart">
+                <h3>
+                  <img
+                    src={products}
+                    alt="heart"
+                    className={styles.heartIcon}
+                  />
+                  { totalUniqueItems}Product(s)-${cartTotal}
+                  <i
+                    className={`fa-solid fa-arrow-right ${styles.arrowRight}`}
+                  ></i>
+                </h3>
+              </Link>
             </div>
           </div>
         </div>

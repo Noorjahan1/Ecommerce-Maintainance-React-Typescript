@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./SideBar.module.css";
 import { DataContext } from "../Context/Context";
 import { TagType, Theme, Age } from "../types";
@@ -20,7 +20,7 @@ const ageArray = [
 function SideBar() {
   const Tags = useContext(DataContext);
   const [minPrice, set_minValue] = useState(0);
-  const [maxPrice, set_maxValue] = useState(0);
+  const [maxPrice, set_maxValue] = useState(1000);
   const [tags, setTags] = useState<TagType>({
     minPrice: minPrice,
     maxPrice: maxPrice,
@@ -41,17 +41,25 @@ function SideBar() {
     "6 years -5 years": false,
     "Older than 12 years": false,
   });
+  useEffect 
+    (() => {
+      setTags((prevValue) => ({
+        ...prevValue,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+      }));
+    },
+    [minPrice, maxPrice]);
   const changePrice = (minPrice: number, maxPrice: number) => {
     set_minValue(minPrice);
     set_maxValue(maxPrice);
-    setTags(prevValue=>({...prevValue,minPrice:minPrice,maxPrice:maxPrice}))
   };
   const changeTheme = (event: any) => {
     const { name, checked } = event.target;
     if (checked) {
       setTags((prevValue) => ({
         ...prevValue,
-        theme:
+        Theme:
           prevValue.Theme.length === 0 ? [name] : [...prevValue.Theme, name],
       }));
     }
@@ -79,6 +87,8 @@ function SideBar() {
     });
   };
   const reset = () => {
+    set_minValue(0);
+    set_maxValue(1000);
     setTheme({
       space: false,
       ninja: false,
@@ -93,12 +103,11 @@ function SideBar() {
       "6 years -5 years": false,
       "Older than 12 years": false,
     });
-    applyFilter();
+    Tags.filterApply(tags);
   };
   const applyFilter = () => {
     Tags.filterApply(tags);
   };
-
   return (
     <>
       <div className={styles.sideMenu}>
@@ -123,10 +132,10 @@ function SideBar() {
               <div style={{ width: "100%", background: "red" }}>
                 <Slider
                   min={0}
-                  max={10000}
-                  step={1}
-                  minRange={100}
-                  onchange={changePrice}
+                  max={1000}
+                  onChange={({ min, max }: { min: number; max: number }) =>
+                    changePrice(min,max)
+                  }
                 />
               </div>
             </li>

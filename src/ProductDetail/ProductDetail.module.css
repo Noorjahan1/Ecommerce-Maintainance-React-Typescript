@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Karla:wght@400;500;600;700&family=Lilita+One&family=Nunito:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 .nameOfProduct h3 {
   font-family: "Lilita One", cursive;
   font-size: 22px;
@@ -28,17 +29,21 @@
 .productDetail p {
   color: #858585;
   font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
 }
 .productDetail p span {
   padding-left: 40px;
+  font-family: 'Quicksand', sans-serif;
 }
 .productBriefDescription h3 {
   font-size: 16px;
   color: #777777;
+  font-family: 'Quicksand', sans-serif;
 }
 .productBriefDescription p {
   font-size: 14px;
   color: #777777;
+  font-family: 'Quicksand', sans-serif;
 }
 .productBriefDescription {
   border-bottom: 2px solid #dedede;
@@ -52,6 +57,7 @@
   font-size: 22px;
   padding-top: 10px;
   color: rgb(221, 44, 56);
+  font-family: 'Quicksand', sans-serif;
 }
 .cart {
   background: rgb(221, 44, 56);
@@ -87,12 +93,14 @@
 .socialMedia p {
   color: #a6a6a6;
   font-size: 20px;
+  font-family: 'Quicksand', sans-serif;
 }
 .socialMedia i {
   font-size: 20px;
 }
 .product {
   padding-right: 30px;
+  margin-bottom: 10%;
 }
 .tabs {
   margin-top: 50px;
@@ -117,6 +125,7 @@
 .tab p,
 .review p {
   color: #858585;
+  font-family: 'Quicksand', sans-serif;
 }
 .reviewDetails {
   display: flex;
@@ -125,16 +134,19 @@
 .review h3,
 .description h3 {
   font-size: 18px;
+  font-family: 'Quicksand', sans-serif;
 }
 .authorName h3 {
   font-size: 15px;
   padding-right: 30px;
   color: #858585;
+  font-family: 'Quicksand', sans-serif;
 }
 .date p {
   font-size: 15px;
   padding-right: 30px;
   color: #858585;
+  font-family: 'Quicksand', sans-serif;
 }
 .reviewRate {
   margin-left: auto;

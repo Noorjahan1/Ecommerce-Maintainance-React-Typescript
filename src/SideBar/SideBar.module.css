@@ -1,53 +1,57 @@
-.sideMenu{
-    flex: 1 1 20%;
-    border-right: 1px solid #eeee;
-    height: 100%;
-    padding: 1.5rem;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap");
+.sideMenu {
+  flex: 1 1 20%;
+  border-right: 1px solid #eeee;
+  height: 100%;
+  padding: 1.5rem;
 }
-.applyFilter button{
-    background: var(--primaryColor);
-    border: none;
-    color: #fff;
-    border-radius: 4px;
-    padding: 10px 20px 10px 20px;
-    margin-right: 8px;
-    width: 80%;
+.applyFilter button {
+  background: var(--primaryColor);
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  padding: 10px 20px 10px 20px;
+  margin-right: 8px;
+  width: 80%;
 }
 .applyFilter i {
-    border: 1px solid #f0eded;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 50%;
-    color: #6b6d7c;
+  border: 1px solid #f0eded;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 50%;
+  color: #6b6d7c;
 }
-.listItems ul{
-    padding: 0px;
+.listItems ul {
+  padding: 0px;
 }
-.dropDown{
-    width: 100%;
-    border: none;
-    color: #474c5c;
-    font-weight: bold;
+.dropDown {
+  width: 100%;
+  border: none;
+  color: #474c5c;
+  font-weight: bold;
+  font-family: "Open Sans", "Roboto", sans-serif;
 }
-.listItems ul li{
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #e3e1e1;
-    padding-bottom: 20px;
+.listItems ul li {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e3e1e1;
+  padding-bottom: 20px;
 }
 
-.listItems ul li:last-of-type, .listItems ul .noBorder{
-    border-bottom: none ;
+.listItems ul li:last-of-type,
+.listItems ul .noBorder {
+  border-bottom: none;
 }
-.age,.Theme{
-    display: flex;
-    justify-content: space-between;
-       width: 100%;
-    border: none;
-    color: #474c5c;
-    font-weight: bold;
+.age,
+.Theme {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: none;
+  color: #474c5c;
+  font-weight: bold;
 }
-.cont{
-      display: block;
+.cont {
+  display: block;
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
@@ -58,8 +62,9 @@
   -ms-user-select: none;
   user-select: none;
   color: #b5b5b5;
-  font-size: 16px ;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Open Sans", "Roboto", sans-serif;
 }
 .cont input {
   position: absolute;
@@ -70,10 +75,10 @@
 }
 .checkmark {
   position: absolute;
-    top: 5px;
-    left: 0;
-    height: 18px;
-    width: 18px;
+  top: 5px;
+  left: 0;
+  height: 18px;
+  width: 18px;
   background-color: #eee;
   border-radius: 2px;
 }
@@ -101,9 +106,9 @@
 
 /* Style the checkmark/indicator */
 .cont .checkmark:after {
-    position: absolute;
-      left: 7px;
-    top: 3px;
+  position: absolute;
+  left: 7px;
+  top: 3px;
   width: 5px;
   height: 10px;
   border: solid white;
@@ -113,12 +118,12 @@
   transform: rotate(45deg);
 }
 :checked + span {
-    font-weight: bold;
-    color: #4b4e60;
+  font-weight: bold;
+  color: #4b4e60;
 }
-.themeBody{
-   overflow-y: auto;
-   height: 100px;
+.themeBody {
+  overflow-y: auto;
+  height: 100px;
 }
 /* width */
 .themeBody::-webkit-scrollbar {
@@ -138,24 +143,25 @@
   background: red;
   border-radius: 10px;
 }
-.price{
-       color: #474c5c;
-    font-weight: bold;
+.price {
+  color: #474c5c;
+  font-weight: bold;
 }
-.priceValue{
-    display: flex;
-    gap: 20px;
-}
-
-.minRange p,.maxRange p{
-    font-size: 14px;
-    color: #b6b6b6;
-      background: #f3f3f3;
-    border-radius: 4px;
-    padding: 8px 10px 8px 10px;
-}
-.minRange p span,.maxRange p span{
-    color: #797c88;
-    font-weight: bold;
+.priceValue {
+  display: flex;
+  gap: 20px;
 }
 
+.minRange p,
+.maxRange p {
+  font-size: 14px;
+  color: #b6b6b6;
+  background: #f3f3f3;
+  border-radius: 4px;
+  padding: 8px 10px 8px 10px;
+}
+.minRange p span,
+.maxRange p span {
+  color: #797c88;
+  font-weight: bold;
+}
