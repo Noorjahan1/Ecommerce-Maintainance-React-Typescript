@@ -6,13 +6,13 @@ import data from "./data";
 import { TagType } from "./types";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
-import Cart from "./Cart/Cart"
-import Product from "./ProductDetail/ProductDetail"
+import Cart from "./Cart/Cart";
+import Product from "./ProductDetail/ProductDetail";
 import Checkout from "./Checkout/Checkout";
-import {
-  Elements,
-} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+import Toys from "./Toys/toys";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import WishList from "./WishList/WishList";
 interface Data {
   id: string;
   "Vendor Code": string;
@@ -20,19 +20,19 @@ interface Data {
   price: number;
   "Prev Price": number;
   img: string;
-  description:string
+  description: string;
 }
 
 function App() {
-  const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+  const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
   const ELEMENTS_OPTIONS = {
-  fonts: [
-    {
-      cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
-    },
-  ],
-};
+    fonts: [
+      {
+        cssSrc: "https://fonts.googleapis.com/css?family=Roboto",
+      },
+    ],
+  };
   const [product, setProduct] = useState<Data[]>(data); //type mention
   const [tags, setTagFilter] = useState<TagType>({
     minPrice: 0,
@@ -47,7 +47,7 @@ function App() {
     setFilterApply(true);
     setTagFilter(value);
   };
-  
+
   if (filterApply) {
     setFilterApply(false);
     setProduct(
@@ -106,21 +106,56 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={  <Main
-              minPrice={tags.minPrice}
-              maxPrice={tags.maxPrice}
-              themes={tags.Theme}
-              ages={tags.Age}
-            />} /> 
-          <Route path="/main" element={  <Main
-              minPrice={tags.minPrice}
-              maxPrice={tags.maxPrice}
-              themes={tags.Theme}
-              ages={tags.Age}
-            />} /> 
-          <Route path="/:productId" element={ <Product/>} /> 
-          <Route path="/shoppingCart" element={  <Cart/> }/>
-          <Route path="/Checkout" element={ <Elements stripe={stripePromise}  options={ELEMENTS_OPTIONS}> <Checkout/></Elements> }/> 
+          <Route
+            index
+            element={
+              <Main
+                minPrice={tags.minPrice}
+                maxPrice={tags.maxPrice}
+                themes={tags.Theme}
+                ages={tags.Age}
+              />
+            }
+          />
+          <Route
+            path="/main"
+            element={
+              <Main
+                minPrice={tags.minPrice}
+                maxPrice={tags.maxPrice}
+                themes={tags.Theme}
+                ages={tags.Age}
+              />
+            }
+          />
+          <Route path="/:productId" element={<Product />} />
+          <Route path="/shoppingCart" element={<Cart />} />
+          <Route
+            path="/brand"
+            element={
+              <Main
+                minPrice={tags.minPrice}
+                maxPrice={tags.maxPrice}
+                themes={tags.Theme}
+                ages={tags.Age}
+              />
+            }
+          />
+          <Route path="/toys" element={<Toys />} />
+          <Route
+            path="/Checkout"
+            element={
+              <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
+                <Checkout />
+              </Elements>
+            }
+          />
+          <Route
+            path="/wishList"
+            element={
+            <WishList/>
+            }
+          />
         </Route>
       </Routes>
       {/* <div className="container conatiner-body my-5">

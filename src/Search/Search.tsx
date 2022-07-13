@@ -6,7 +6,7 @@ function Search() {
   return (
     <>
       <div className={styles.filter}>
-        <div className={`${styles.searchIcon}`}>
+        <div className={styles.searchIcon}>
           <i className="fa-solid fa-magnifying-glass"/>
         </div>
 

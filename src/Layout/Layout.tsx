@@ -7,7 +7,7 @@ function Layout() {
   return (
     <>
       <CartProvider>
-        <div className="container conatiner-body my-5">
+        <div className=" conatiner-body my-5 mx-5 ">
           <Navbar />
           <div className="row">
             <div className="col-lg-3">

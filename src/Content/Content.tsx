@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Content.module.css";
 import { useRef, useContext } from "react";
 import { DataContext } from "../Context/Context";
@@ -6,10 +6,13 @@ import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 function Content() {
   const like = useRef(false); //fix
-  const { addItem ,inCart,removeItem } = useCart();
-  const toggleLike = (event: any) => {
+  const { addItem, inCart, removeItem } = useCart();
+  const toggleLike = (event: any, product) => {
     like.current = !like.current; //useRef
     event.target.style.color = like.current ? "red" : "#5c5f6f";
+    let wishItem = JSON.parse(localStorage.getItem("wishedItem")!);
+    const wishItemarray = wishItem ? wishItem.find((item)=>item.id===product.id)?[...wishItem] :[...wishItem,product]: [product];
+    localStorage.setItem("wishedItem", JSON.stringify(wishItemarray));
   };
   const products = useContext(DataContext);
 
@@ -25,7 +28,7 @@ function Content() {
                 </div>
                 <div className={`${styles.like}`}>
                   <i
-                    onClick={(event) => toggleLike(event)}
+                    onClick={(event) => toggleLike(event, product)}
                     className={`fa-solid fa-heart`}
                   ></i>
                 </div>
@@ -48,11 +51,23 @@ function Content() {
                   <p className={styles.price}>Price</p>
                   <h3 className={styles.dollar}>
                     {product.price} $
-                    <span className={styles.strike}>{product["Prev Price"]}$</span>
+                    <span className={styles.strike}>
+                      {product["Prev Price"]}$
+                    </span>
                   </h3>
                 </div>
-                <div className={styles.addToCart} style={{background:inCart( product.id)?"green":"#dd2d38"}} onClick={() =>inCart( product.id)?removeItem(product.id) :addItem(product)}>
-                  <i className="fa-solid fa-cart-shopping"  ></i>
+                <div
+                  className={styles.addToCart}
+                  style={{
+                    background: inCart(product.id) ? "green" : "#dd2d38",
+                  }}
+                  onClick={() =>
+                    inCart(product.id)
+                      ? removeItem(product.id)
+                      : addItem(product)
+                  }
+                >
+                  <i className="fa-solid fa-cart-shopping"></i>
                 </div>
               </div>
             </div>
