@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Main from "./Main/Main";
 import { DataContext } from "./Context/Context";
-import data from "./data";
+//  import data from "./data";
+import Loading from "./Lodaing/loading";
 import { TagType } from "./types";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
@@ -13,17 +14,77 @@ import Toys from "./Toys/toys";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import WishList from "./WishList/WishList";
+import { useQuery, gql } from "@apollo/client";
 interface Data {
   id: string;
-  "Vendor Code": string;
-  Title: string;
+  name: string;
   price: number;
-  "Prev Price": number;
-  img: string;
-  description: string;
+  image: string;
 }
-
+const GET_LOCATIONS = gql`
+  {
+    products(first: 100, channel: "default-channel") {
+      edges {
+        node {
+          id
+          name
+          pricing {
+            priceRange {
+              start {
+                gross {
+                  currency
+                  amount
+                }
+              }
+              stop {
+                gross {
+                  amount
+                }
+              }
+            }
+          }
+          thumbnail {
+            url
+            alt
+          }
+        }
+      }
+    }
+  }
+`;
 function App() {
+  const { loading, error, data } = useQuery(GET_LOCATIONS);
+  const [finalProduct,setFinalProduct]=useState<Data[]>(
+    //  finalProducts
+    []
+  );
+  const [product, setProduct] = useState<Data[]>(
+    //  finalProducts
+    []
+  ); //type mention
+  useEffect(() => {
+    if (data) {
+      setProduct(
+        data.products.edges.map((product) => {
+          return {
+            id: product.node.id,
+            name: product.node.name,
+            price: product.node.pricing.priceRange.start.gross.amount,
+            image: product.node.thumbnail.url,
+          };
+        })
+      );
+      setFinalProduct(data.products.edges.map((product) => {
+          return {
+            id: product.node.id,
+            name: product.node.name,
+            price: product.node.pricing.priceRange.start.gross.amount,
+            image: product.node.thumbnail.url,
+          };
+        }))
+    }
+  }, [data]);
+
   const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
   const ELEMENTS_OPTIONS = {
@@ -33,7 +94,7 @@ function App() {
       },
     ],
   };
-  const [product, setProduct] = useState<Data[]>(data); //type mention
+
   const [tags, setTagFilter] = useState<TagType>({
     minPrice: 0,
     maxPrice: 0,
@@ -51,7 +112,7 @@ function App() {
   if (filterApply) {
     setFilterApply(false);
     setProduct(
-      data.filter((data) => {
+      finalProduct.filter((data) => {
         const price = data.price;
         const minPrice = tags.minPrice;
         const maxPrice = tags.maxPrice;
@@ -67,22 +128,25 @@ function App() {
   const search = (value: string) => {
     setitemOffset(0);
     if (value === "") {
-      setProduct(data);
+       setProduct(
+        data.products.edges.map((product) => {
+          return {
+            id: product.node.id,
+            name: product.node.name,
+            price: product.node.pricing.priceRange.start.gross.amount,
+            image: product.node.thumbnail.url,
+          };
+        })
+      );
 
       return;
     }
     const regex = new RegExp(value, "ig");
 
     setProduct(
-      data.filter((e) => {
-        if (regex.test(e["Vendor Code"])) {
+      finalProduct.filter((e) => {
+        if (regex.test(e.name)) {
           return true;
-        } else if (regex.test(e.price.toString())) {
-          return true;
-        } else if (regex.test(e.Title)) {
-          return true;
-        } else {
-          return false;
         }
       })
     );
@@ -94,7 +158,9 @@ function App() {
 
   const endOffset = itemOffset ? itemOffset + itemsPerPage : 0 + itemsPerPage;
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <DataContext.Provider
       value={{
         data: product.slice(itemOffset, endOffset),
@@ -150,30 +216,9 @@ function App() {
               </Elements>
             }
           />
-          <Route
-            path="/wishList"
-            element={
-            <WishList/>
-            }
-          />
+          <Route path="/wishList" element={<WishList />} />
         </Route>
       </Routes>
-      {/* <div className="container conatiner-body my-5">
-        <Navbar />
-        <div className="row">
-          <div className="col-lg-3">
-            <SideBar />
-          </div>
-          <div className="col-lg-9">
-            <Main
-              minPrice={tags.minPrice}
-              maxPrice={tags.maxPrice}
-              themes={tags.Theme}
-              ages={tags.Age}
-            />
-          </div>
-        </div>
-      </div> */}
     </DataContext.Provider>
   );
 }

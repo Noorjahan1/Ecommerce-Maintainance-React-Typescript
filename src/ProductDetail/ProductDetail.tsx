@@ -3,13 +3,14 @@ import Styles from "./ProductDetail.module.css";
 import { useParams } from "react-router-dom";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import data from "../data";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
+import { DataContext } from "../Context/Context";
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -42,6 +43,8 @@ function SamplePrevArrow(props) {
   );
 }
 function ProductDetail() {
+    const products =useContext(DataContext);
+    
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
@@ -77,11 +80,11 @@ function ProductDetail() {
   const changeImageUrl = (url) => {
     setimageUrl(url.src);
   };
-  const productData = data.filter((data) => data.id === params.productId);
+  const productData = products.data.filter((data) => data.id === params.productId);
   const productDetails = [
     { Menufacturer: "Chanel" },
     { Availability: "In stock 20 items(s)" },
-    { "Product Code": productData[0]["Vendor Code"] },
+   
   ];
   return (
     <>
@@ -92,7 +95,7 @@ function ProductDetail() {
             <div className={Styles.productImage}>
               <img
                 src={
-                  imageUrl === "" ? `${productData[0]["img"]}` : `${imageUrl}`
+                  imageUrl === "" ? `${productData[0].image}` : `${imageUrl}`
                 }
                 alt="Image"
               />
@@ -152,9 +155,9 @@ function ProductDetail() {
             <div className={Styles.price}>
               <p>
                 <span className={Styles.strike}>
-                  Tk{productData[0]["Prev Price"]}
+                  Tk{productData[0].price}
                 </span>
-                Tk{productData[0]["price"]}
+                {/* Tk{productData[0]["price"]} */}
               </p>
             </div>
             <div className={Styles.Buy}>

@@ -15,7 +15,6 @@ function Content() {
     localStorage.setItem("wishedItem", JSON.stringify(wishItemarray));
   };
   const products = useContext(DataContext);
-
   return (
     <>
       <div className={`row ${styles.cards} `}>
@@ -24,7 +23,7 @@ function Content() {
             <div className="col-lg-4 pb-5" key={product.id}>
               <div className={`card ${styles.carItem}`}>
                 <div className={`${styles.image} p-5`}>
-                  <img src={product.img} alt="card" />
+                  <img src={product.image} alt="card" />
                 </div>
                 <div className={`${styles.like}`}>
                   <i
@@ -35,7 +34,7 @@ function Content() {
 
                 <div className={styles.carText}>
                   <h3 className={styles.vendorCode}>
-                    Vendor Code :{product["Vendor Code"]}
+                    Vendor Code :
                   </h3>
                   <Link
                     style={{ display: "block", margin: "1rem 0" }}
@@ -43,16 +42,16 @@ function Content() {
                     key={product.id}
                   >
                     <h3 className={styles.productName}>
-                      {product.Title}
+                      {product.name}
                       <br />
-                      Collection {`<<Brutal>>`}{" "}
+                    
                     </h3>
                   </Link>
                   <p className={styles.price}>Price</p>
                   <h3 className={styles.dollar}>
                     {product.price} $
                     <span className={styles.strike}>
-                      {product["Prev Price"]}$
+                      {product.price}$
                     </span>
                   </h3>
                 </div>

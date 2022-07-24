@@ -24,12 +24,12 @@ function CartList() {
                 </div>
 
                 <div className={Styles.image}>
-                  <img src={`${item.img}`} alt="" />
+                  <img src={`${item.image}`} alt="" />
                 </div>
 
                 <div className={Styles.description}>
-                  <span>{item.Title}</span>
-                  <span>{item["Vendor Code"]}</span>
+                  <span>{item.name}</span>
+                  {/* <span>{item["Vendor Code"]}</span> */}
                 </div>
 
                 <div className={Styles.quantity}>
