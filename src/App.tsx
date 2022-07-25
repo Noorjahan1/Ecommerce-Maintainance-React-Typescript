@@ -54,7 +54,7 @@ const GET_LOCATIONS = gql`
 `;
 function App() {
   const { loading, error, data } = useQuery(GET_LOCATIONS);
-  const [finalProduct,setFinalProduct]=useState<Data[]>(
+  const [finalProduct, setFinalProduct] = useState<Data[]>(
     //  finalProducts
     []
   );
@@ -74,14 +74,16 @@ function App() {
           };
         })
       );
-      setFinalProduct(data.products.edges.map((product) => {
+      setFinalProduct(
+        data.products.edges.map((product) => {
           return {
             id: product.node.id,
             name: product.node.name,
             price: product.node.pricing.priceRange.start.gross.amount,
             image: product.node.thumbnail.url,
           };
-        }))
+        })
+      );
     }
   }, [data]);
 
@@ -128,7 +130,7 @@ function App() {
   const search = (value: string) => {
     setitemOffset(0);
     if (value === "") {
-       setProduct(
+      setProduct(
         data.products.edges.map((product) => {
           return {
             id: product.node.id,
