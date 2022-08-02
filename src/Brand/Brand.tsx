@@ -1,7 +1,9 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import Loading from "../Loading/loading";
 import { getProducts } from "../RestAPi/restapi";
 import BrandContent from "./BrandContent"
+import Search from "../Search/Search"
 interface Product {
   id: number;
   brand: string;
@@ -37,8 +39,9 @@ function Brand() {
     }
   }, []);
   return <>{Data ? <div className="mt-5 mx-5">
+           <Search></Search>
           <BrandContent data={Data}/>
-        </div> : null}</>;
+        </div> :<div className="mt-5 mx-5">{<Loading></Loading>}</div>}</>;
 }
 
 export default Brand;
