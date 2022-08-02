@@ -3,7 +3,7 @@ import "./App.css";
 import Main from "./Main/Main";
 import { DataContext } from "./Context/Context";
 //  import data from "./data";
-import Loading from "./Lodaing/loading";
+import Loading from "./Loading/loading";
 import { TagType } from "./types";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
@@ -15,6 +15,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import WishList from "./WishList/WishList";
 import { useQuery, gql } from "@apollo/client";
+import Brand from "./Brand/Brand";
 interface Data {
   id: string;
   name: string;
@@ -201,12 +202,7 @@ function App() {
           <Route
             path="/brand"
             element={
-              <Main
-                minPrice={tags.minPrice}
-                maxPrice={tags.maxPrice}
-                themes={tags.Theme}
-                ages={tags.Age}
-              />
+              <Brand/>
             }
           />
           <Route path="/toys" element={<Toys />} />
