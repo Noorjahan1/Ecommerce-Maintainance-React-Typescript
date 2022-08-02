@@ -120,7 +120,7 @@ function ProductDetail() {
           {/* Product Details */}
           <div className="col-lg-6">
             <div className={Styles.nameOfProduct}>
-              <h3>Product Title Here</h3>
+              <h3>{productData[0].name}</h3>
             </div>
             <div className={Styles.titles}>
               <ReactStars
@@ -251,7 +251,23 @@ function ProductDetail() {
                     <h3>Description</h3>
                   </div>
 
-                  <p>{productData[0].description}</p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Porttitor leo a diam sollicitudin tempor. Neque
+                    laoreet suspendisse interdum consectetur libero. Nunc
+                    scelerisque viverra mauris in aliquam sem fringilla ut
+                    morbi. Dui vivamus arcu felis bibendum ut tristique et.
+                    Lorem mollis aliquam ut porttitor. Leo vel orci porta non.
+                    Urna duis convallis convallis tellus id interdum velit. Amet
+                    mattis vulputate enim nulla aliquet porttitor lacus. Nec dui
+                    nunc mattis enim ut. Nec nam aliquam sem et tortor. Tortor
+                    posuere ac ut consequat semper. Viverra orci sagittis eu
+                    volutpat odio facilisis mauris. Sollicitudin aliquam
+                    ultrices sagittis orci. Nisi lacus sed viverra tellus in hac
+                    habitasse. Tortor posuere ac ut consequat semper viverra nam
+                    libero justo. Odio tempor orci dapibus ultrices in iaculis
+                    nunc sed. Quis hendrerit dolor magna eget est lorem ipsum.
+                    Integer enim neque volutpat ac tincidunt.</p>
                 </div>
               </TabPanel>
               <TabPanel>

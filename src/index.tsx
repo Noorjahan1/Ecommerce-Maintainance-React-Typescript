@@ -4,18 +4,11 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-
 import reportWebVitals from "./reportWebVitals";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 const client = new ApolloClient({
   uri: "https://demo.saleor.io/graphql/",
   cache: new InMemoryCache(),
-  
 });
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
