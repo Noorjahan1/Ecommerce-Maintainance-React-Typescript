@@ -20,8 +20,7 @@ function WishList() {
   }, [updateWishCart]);
   return (
     <>
-      {" "}
-      {wishProduct.length !== 0 ? (
+      {wishProduct && wishProduct.length!=0? (
         <>
           <h3>Wished Item</h3>
           <div className="m-3">

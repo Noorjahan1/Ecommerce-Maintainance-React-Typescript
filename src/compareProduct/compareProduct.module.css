@@ -1,10 +1,9 @@
-.carItem {
+.carItem{
     position: relative;
     border-radius: 10px;
-
+    
 }
-
-.like {
+.like{
     position: absolute;
     right: 10px;
     top: 10px;
@@ -15,54 +14,45 @@
     align-self: center;
     padding: 8px;
 }
-
-.like i {
+.like i{
     color: #5c5f6f;
     font-size: 14px;
 }
-
-.image {
+.image{
     border-bottom: 1px solid #dfdfdf;
-
+    height: 200px;
+    padding: 2rem;
+    
 }
-
-.image>img {
+.image>img{
     height: 100%;
     width: 100%;
-    object-fit: contain
 }
-
-.strike {
+.strike{
     text-decoration: line-through;
     color: #b7b7bf;
     font-size: 15px;
 }
-
-.vendorCode {
+.vendorCode{
     color: #bebebe;
     font-size: 14px;
 }
-
-.carText {
+.carText{
     padding: 20px;
 }
-
-.productName {
+.productName{
     color: #616575;
     font-size: 16px;
 }
-
-.price {
+.price{
     color: #bbb;
     font-size: 14px;
 }
-
-.dollar {
+.dollar{
     color: #22273a;
     font-size: 18px;
 }
-
-.addToCart {
+.addToCart{
     position: absolute;
     bottom: 20px;
     right: 10px;
@@ -73,19 +63,16 @@
     border-radius: 50%;
     cursor: pointer;
 }
-
-.addToCart i {
+.addToCart i{
     color: #fff;
     font-size: 14px;
 }
-
-.AddToCompare {
+.AddToCompare{
     margin-bottom: 20px;
     margin-left: 20px;
-
+    
 }
-
-.AddToCompare button {
+.AddToCompare button{
     border: none;
     background: rgb(221, 45, 56);
     color: #fff;

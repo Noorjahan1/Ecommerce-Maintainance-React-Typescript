@@ -4,7 +4,8 @@ import { useRef, useContext } from "react";
 import { DataContext } from "../Context/Context";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
-function Content() {
+import {compareFunction} from "../types" 
+function Content(Compare:compareFunction) {
   const like = useRef(false); //fix
   const { addItem, inCart, removeItem } = useCart();
   const toggleLike = (event: any, product) => {
@@ -22,7 +23,7 @@ function Content() {
           return (
             <div className="col-lg-4 pb-5" key={product.id}>
               <div className={`card ${styles.carItem}`}>
-                <div className={`${styles.image} p-5`}>
+                <div className={`${styles.image} p-2`}>
                   <img src={product.image} alt="card" />
                 </div>
                 <div className={`${styles.like}`}>
@@ -54,6 +55,9 @@ function Content() {
                       {product.price}$
                     </span>
                   </h3>
+                </div>
+                <div className={styles.AddToCompare}>
+                  <button onClick={()=>Compare.Compare(product)}>Add to Compare</button>
                 </div>
                 <div
                   className={styles.addToCart}

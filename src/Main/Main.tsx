@@ -6,9 +6,11 @@ import Content from "../Content/Content";
 import Tag from "../Tags/Tags";
 import Pagination from "../Pagination/Pagination";
 import { TagPropTypes } from "../types";
-function Main(tags: TagPropTypes) {
-  const { minPrice, maxPrice, themes, ages } = tags;
 
+
+function Main(tags: TagPropTypes) {
+ 
+  const { minPrice, maxPrice, themes,ages,Compare} = tags;
   return (
     <>
       <div className={styles.main}>
@@ -24,9 +26,10 @@ function Main(tags: TagPropTypes) {
           maxPrice={maxPrice}
           themes={themes}
           ages={ages}
+          Compare={Compare}
         />
         <div className="mt-5">
-          <Content />
+          <Content  Compare={Compare}/>
         </div>
       </div>
       <Pagination totalPage={6} />

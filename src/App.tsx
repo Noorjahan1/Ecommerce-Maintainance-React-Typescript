@@ -8,7 +8,7 @@ import { TagType } from "./types";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Cart from "./Cart/Cart";
-import Product from "./ProductDetail/ProductDetail";
+// import Product from "./ProductDetail/ProductDetail";
 import Checkout from "./Checkout/Checkout";
 import Toys from "./Toys/toys";
 import { Elements } from "@stripe/react-stripe-js";
@@ -16,6 +16,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import WishList from "./WishList/WishList";
 import { useQuery, gql } from "@apollo/client";
 import Brand from "./Brand/Brand";
+import CompareProduct from "./compareProduct/compareProduct"
+import Login from "./Login/Login";
+import SignUp from "./SignUp/View/SignUp";
+
+
 interface Data {
   id: string;
   name: string;
@@ -53,6 +58,7 @@ const GET_LOCATIONS = gql`
     }
   }
 `;
+
 function App() {
   const { loading, error, data } = useQuery(GET_LOCATIONS);
   const [finalProduct, setFinalProduct] = useState<Data[]>(
@@ -63,6 +69,10 @@ function App() {
     //  finalProducts
     []
   ); //type mention
+  const [compareProducts, setcompareProducts] = useState<Data[]>([])
+  const Compare = (products: Data) => {
+    setcompareProducts(prevState => [...prevState, products])
+  }
   useEffect(() => {
     if (data) {
       setProduct(
@@ -173,8 +183,19 @@ function App() {
         Page: Math.ceil(product.length / itemsPerPage),
       }}
     >
+       <Routes>
+        <Route path="/signUp" element={<SignUp />}>
+        </Route>
+       </Routes>
       <Routes>
         <Route path="/" element={<Layout />}>
+        <Route
+            path="/login"
+            element={
+              <Login
+              />
+            }
+          />
           <Route
             index
             element={
@@ -183,6 +204,7 @@ function App() {
                 maxPrice={tags.maxPrice}
                 themes={tags.Theme}
                 ages={tags.Age}
+                Compare={Compare}
               />
             }
           />
@@ -194,15 +216,16 @@ function App() {
                 maxPrice={tags.maxPrice}
                 themes={tags.Theme}
                 ages={tags.Age}
+                Compare={Compare}
               />
             }
           />
-          <Route path="/:productId" element={<Product />} />
+          {/* <Route path="/:productId" element={<Product />} /> */}
           <Route path="/shoppingCart" element={<Cart />} />
           <Route
             path="/brand"
             element={
-              <Brand/>
+              <Brand />
             }
           />
           <Route path="/toys" element={<Toys />} />
@@ -215,6 +238,7 @@ function App() {
             }
           />
           <Route path="/wishList" element={<WishList />} />
+          <Route path="/compare" element={<CompareProduct compareProducts={compareProducts} />} />
         </Route>
       </Routes>
     </DataContext.Provider>

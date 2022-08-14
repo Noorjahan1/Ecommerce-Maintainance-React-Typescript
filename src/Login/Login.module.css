@@ -1,0 +1,23 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.login{
+    text-align: center;
+}
+.Form div{
+    margin-bottom: 20px;
+}
+.login h1{
+    margin-bottom: 20px;
+     color: red;
+}
+.Form button{
+    border:none;
+    background: red;
+    padding: 10px;
+    color: #fff;
+    border-radius: 10px;
+}

@@ -3,6 +3,8 @@ import styles from "./SideBar.module.css";
 import { DataContext } from "../Context/Context";
 import { TagType, Theme, Age } from "../types";
 import Slider from "../Slider/Slider";
+import { getProducts } from "../RestAPi/restapi";
+
 const themesArray = [
   { space: "Space (44)" },
   { ninja: "Ninja (44)" },
@@ -18,6 +20,7 @@ const ageArray = [
   { "Older than 12 years": "Older than 12 years" },
 ];
 function SideBar() {
+  const [brands, setBrand] = useState<string[]>()
   const Tags = useContext(DataContext);
   const [minPrice, set_minValue] = useState(0);
   const [maxPrice, set_maxValue] = useState(1000);
@@ -41,15 +44,23 @@ function SideBar() {
     "6 years -5 years": false,
     "Older than 12 years": false,
   });
-  useEffect 
+  useEffect
     (() => {
       setTags((prevValue) => ({
         ...prevValue,
         minPrice: minPrice,
         maxPrice: maxPrice,
       }));
+      const getBrand = async () => {
+        let Datas = await getProducts();
+        let brand: string[] = [];
+        Datas.map(data=>brand.push(data.brand))
+        
+        return brand;
+      };
+      getBrand().then((response) => { setBrand(response) });
     },
-    [minPrice, maxPrice]);
+      [minPrice, maxPrice]);
   const changePrice = (minPrice: number, maxPrice: number) => {
     set_minValue(minPrice);
     set_maxValue(maxPrice);
@@ -134,7 +145,7 @@ function SideBar() {
                   min={0}
                   max={1000}
                   onChange={({ min, max }: { min: number; max: number }) =>
-                    changePrice(min,max)
+                    changePrice(min, max)
                   }
                 />
               </div>
@@ -194,6 +205,7 @@ function SideBar() {
             <li>
               <select className={styles.dropDown}>
                 <option value="Stockavai">Brand</option>
+                {brands?.map(brand => (<option value={brand}>{brand}</option>))}
               </select>
             </li>
             <li>

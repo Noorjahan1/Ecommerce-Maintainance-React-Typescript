@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+.SignUp{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+}
+.card{
+    background: #fff;
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
+}
+@keyframes SignUp {
+    from{
+        top:0;
+        left:0;
+    
+    }
+    to{
+        top: 100px;
+        left :100px;
+    }
+}
+.card>div{
+    position: absolute;
+    animation-name:SignUp ;
+    animation-duration: 1s;
+    top: 100px;
+    left: 100px;
+}
+.button button{
+    border: none;
+    background: red;
+    color: #fff;
+    padding: 8px;
+    border-radius:10px;
+    margin-top: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+.label p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    margin-top: 20px;
+}
+.label input{
+    width: 100%;
+    border: none;
+}

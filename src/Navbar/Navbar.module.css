@@ -95,3 +95,10 @@
 .heartIcon{
     margin-right: 20px;
 }
+.selectLanguage select{
+    border: none;
+    display: inline-block;
+    color: #535667;
+    font-size: 16px;
+    font-weight: bold;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.css";
@@ -6,6 +6,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import './i18n.ts'
 const client = new ApolloClient({
   uri: "https://demo.saleor.io/graphql/",
   cache: new InMemoryCache(),
@@ -17,7 +18,9 @@ root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <App />
+        <Suspense fallback="...loading">
+          <App />
+        </Suspense>
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>
