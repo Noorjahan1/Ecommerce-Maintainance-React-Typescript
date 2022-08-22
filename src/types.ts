@@ -23,7 +23,7 @@ export interface TagPropTypes {
   maxPrice: number;
   themes: string[];
   ages: string[];
-  Compare:Function;
+  
 }
 export interface Product {
   id: number;

@@ -4,6 +4,7 @@ import { DataContext } from "../Context/Context";
 import { TagType, Theme, Age } from "../types";
 import Slider from "../Slider/Slider";
 import { getProducts } from "../RestAPi/restapi";
+import ContextType from "../Context/Type";
 
 const themesArray = [
   { space: "Space (44)" },
@@ -21,7 +22,7 @@ const ageArray = [
 ];
 function SideBar() {
   const [brands, setBrand] = useState<string[]>()
-  const Tags = useContext(DataContext);
+  const Tags = useContext(DataContext) as ContextType;
   const [minPrice, set_minValue] = useState(0);
   const [maxPrice, set_maxValue] = useState(1000);
   const [tags, setTags] = useState<TagType>({
@@ -205,7 +206,7 @@ function SideBar() {
             <li>
               <select className={styles.dropDown}>
                 <option value="Stockavai">Brand</option>
-                {brands?.map(brand => (<option value={brand}>{brand}</option>))}
+                {brands?.map((brand ,index)=> (<option value={brand} key={index}>{brand}</option>))}
               </select>
             </li>
             <li>

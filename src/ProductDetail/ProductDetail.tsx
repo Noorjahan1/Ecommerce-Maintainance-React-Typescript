@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { DataContext } from "../Context/Context";
+import ContextType from "../Context/Type";
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
@@ -43,7 +44,7 @@ function SamplePrevArrow(props) {
   );
 }
 function ProductDetail() {
-    const products =useContext(DataContext);
+    const products =useContext(DataContext) as ContextType;
     
   const ratingChanged = (newRating) => {
     console.log(newRating);

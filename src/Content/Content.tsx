@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ContextType, MouseEventHandler, useState } from "react";
 import styles from "./Content.module.css";
 import { useRef, useContext } from "react";
 import { DataContext } from "../Context/Context";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
-import {compareFunction} from "../types" 
-function Content(Compare:compareFunction) {
+import ContType from "../Context/Type";
+function Content() {
   const like = useRef(false); //fix
   const { addItem, inCart, removeItem } = useCart();
   const toggleLike = (event: any, product) => {
@@ -15,7 +15,10 @@ function Content(Compare:compareFunction) {
     const wishItemarray = wishItem ? wishItem.find((item)=>item.id===product.id)?[...wishItem] :[...wishItem,product]: [product];
     localStorage.setItem("wishedItem", JSON.stringify(wishItemarray));
   };
-  const products = useContext(DataContext);
+  const products = useContext(DataContext) as ContType;
+  const CompareProducts=(product)=>{
+    products.Compare(product)
+  }
   return (
     <>
       <div className={`row ${styles.cards} `}>
@@ -57,7 +60,7 @@ function Content(Compare:compareFunction) {
                   </h3>
                 </div>
                 <div className={styles.AddToCompare}>
-                  <button onClick={()=>Compare.Compare(product)}>Add to Compare</button>
+                  <button onClick={()=>CompareProducts(product)} style={{background:products.compareProducts?.find(comparedProduct=>comparedProduct.id===product.id)&&"green"}}>{products.compareProducts?.find(comparedProduct=>comparedProduct.id===product.id)?"Added to Compare":"Add to Compare"}</button>
                 </div>
                 <div
                   className={styles.addToCart}

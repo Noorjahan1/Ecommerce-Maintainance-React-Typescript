@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { compareProducts } from "../types"
 import styles from "./compareProduct.module.css";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
-function CompareProduct(compareProduct: compareProducts) {
-  console.log(compareProduct)
+import { DataContext } from '../Context/Context';
+import ContextType from '../Context/Type';
+function CompareProduct() {
+  const products = useContext(DataContext) as ContextType;
   const like = useRef(false); //fix
   const { addItem, inCart, removeItem } = useCart();
   const toggleLike = (event: any, product) => {
@@ -19,7 +21,7 @@ function CompareProduct(compareProduct: compareProducts) {
     <>
       <div className='mx-5 mt-5'>
         <div className={`row ${styles.cards}  `}>
-          {compareProduct.compareProducts?.map((product) => {
+          {products.compareProducts?.map((product) => {
             return (
               <div className="col-lg-4 pb-5" key={product.id}>
                 <div className={`card ${styles.carItem}`}>

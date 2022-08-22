@@ -17,10 +17,8 @@ import WishList from "./WishList/WishList";
 import { useQuery, gql } from "@apollo/client";
 import Brand from "./Brand/Brand";
 import CompareProduct from "./compareProduct/compareProduct"
-import Login from "./Login/Login";
-import SignUp from "./SignUp/View/SignUp";
-
-
+import SignUp from "./SignUp/SignUp";
+import Product from "./ProductDetail/ProductDetail";
 interface Data {
   id: string;
   name: string;
@@ -59,6 +57,7 @@ const GET_LOCATIONS = gql`
   }
 `;
 
+
 function App() {
   const { loading, error, data } = useQuery(GET_LOCATIONS);
   const [finalProduct, setFinalProduct] = useState<Data[]>(
@@ -70,9 +69,21 @@ function App() {
     []
   ); //type mention
   const [compareProducts, setcompareProducts] = useState<Data[]>([])
+  const [userInfo, setuserInfo] = useState<string>("")
+  const [token,setToken]=useState<string|null>(null)
   const Compare = (products: Data) => {
     setcompareProducts(prevState => [...prevState, products])
   }
+  const signOut = () => {
+    localStorage.clear()
+    setToken(null)
+    setuserInfo("")
+  }
+  const signIn = (userEmail) => {
+    setuserInfo(userEmail)
+    setToken(localStorage.getItem("AUTH_TOKEN"))
+  }
+
   useEffect(() => {
     if (data) {
       setProduct(
@@ -83,7 +94,7 @@ function App() {
             price: product.node.pricing.priceRange.start.gross.amount,
             image: product.node.thumbnail.url,
           };
-        })
+        }, [])
       );
       setFinalProduct(
         data.products.edges.map((product) => {
@@ -181,21 +192,15 @@ function App() {
         filterApply: applyFilter,
         pageNumber: page,
         Page: Math.ceil(product.length / itemsPerPage),
+        userInfo: userInfo,
+        signOut: signOut,
+        compareProducts,
+        Compare:Compare
       }}
     >
-       <Routes>
-        <Route path="/signUp" element={<SignUp />}>
-        </Route>
-       </Routes>
-      <Routes>
+      {token? <Routes>
         <Route path="/" element={<Layout />}>
-        <Route
-            path="/login"
-            element={
-              <Login
-              />
-            }
-          />
+
           <Route
             index
             element={
@@ -204,7 +209,7 @@ function App() {
                 maxPrice={tags.maxPrice}
                 themes={tags.Theme}
                 ages={tags.Age}
-                Compare={Compare}
+                
               />
             }
           />
@@ -216,11 +221,11 @@ function App() {
                 maxPrice={tags.maxPrice}
                 themes={tags.Theme}
                 ages={tags.Age}
-                Compare={Compare}
+               
               />
             }
           />
-          {/* <Route path="/:productId" element={<Product />} /> */}
+          <Route path="/:productId" element={<Product />} />
           <Route path="/shoppingCart" element={<Cart />} />
           <Route
             path="/brand"
@@ -238,9 +243,17 @@ function App() {
             }
           />
           <Route path="/wishList" element={<WishList />} />
-          <Route path="/compare" element={<CompareProduct compareProducts={compareProducts} />} />
+          <Route path="/compare" element={<CompareProduct  />} />
         </Route>
-      </Routes>
+      </Routes> :
+        <Routes>
+          <Route path="/" element={<SignUp signOut={signOut} signIn={signIn} />}>
+          </Route>
+        </Routes>
+
+      }
+
+
     </DataContext.Provider>
   );
 }

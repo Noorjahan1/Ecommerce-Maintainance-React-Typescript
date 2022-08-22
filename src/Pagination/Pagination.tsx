@@ -3,9 +3,10 @@ import styles from "./Pagination.module.css";
 import ReactDOM from "react-dom";
 import ReactPaginate from "react-paginate";
 import { DataContext } from "../Context/Context";
+import ContextType from "../Context/Type";
 
 function Pagination({ totalPage }) {
-  const product = useContext(DataContext);
+  const product = useContext(DataContext) as ContextType;
 
   const handlePageClick = (event) => {
     const newOffset = event.selected * 6;

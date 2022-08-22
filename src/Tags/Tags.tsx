@@ -2,8 +2,9 @@ import styles from "./Tags.module.css";
 import { TagPropTypes } from "../types";
 import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../Context/Context";
+import ContextType from "../Context/Type";
 const Tag = (tags: TagPropTypes) => {
-  const product = useContext(DataContext);
+  const product = useContext(DataContext) as ContextType;
   const { minPrice, maxPrice, themes, ages } = tags;
   const tagArray = [...themes, ...ages];
   const [prices, setPrices] = useState([minPrice, maxPrice]);

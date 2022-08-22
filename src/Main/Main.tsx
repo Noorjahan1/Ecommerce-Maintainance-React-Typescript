@@ -10,7 +10,7 @@ import { TagPropTypes } from "../types";
 
 function Main(tags: TagPropTypes) {
  
-  const { minPrice, maxPrice, themes,ages,Compare} = tags;
+  const { minPrice, maxPrice, themes,ages} = tags;
   return (
     <>
       <div className={styles.main}>
@@ -26,10 +26,10 @@ function Main(tags: TagPropTypes) {
           maxPrice={maxPrice}
           themes={themes}
           ages={ages}
-          Compare={Compare}
+          
         />
         <div className="mt-5">
-          <Content  Compare={Compare}/>
+          <Content  />
         </div>
       </div>
       <Pagination totalPage={6} />

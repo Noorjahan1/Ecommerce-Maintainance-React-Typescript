@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { DataContext } from "../Context/Context";
+import ContextType from "../Context/Type";
 import styles from "./Search.module.css";
 function Search() {
-  const product = useContext(DataContext);
+  const product = useContext(DataContext) as ContextType;
   return (
     <>
       <div className={styles.filter}>

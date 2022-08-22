@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./Navbar.module.css";
 import logo from "../images/logo.jpg";
 import hearIcon from "../images/heartIcon.jpg";
@@ -6,6 +6,8 @@ import products from "../images/products.jpg";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { useTranslation } from 'react-i18next'
+import { DataContext } from "../Context/Context";
+import ContextType from "../Context/Type";
 const languages = [
   { value: "chooseLanguage", text: "Language" },
   { value: 'en', text: "English" },
@@ -22,6 +24,7 @@ export default function Logo() {
     let loc = "http://localhost:3000/";
     window.location.replace(loc + "?lng=" + e.target.value);
   }
+  const user = useContext(DataContext) as ContextType;
   return (
     <>
 
@@ -103,7 +106,8 @@ export default function Logo() {
                   <div className={`${styles.otherItemText}`}>
                     <h3>
                       <i className={` ${styles.avater} fa-solid fa-user p-2`} />
-                      Alexander
+                     {user.userInfo}
+                     <i className="fa fa-sign-out" aria-hidden="true" onClick={user.signOut}></i>
                     </h3>
                   </div>
                 </div>
