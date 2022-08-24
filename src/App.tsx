@@ -16,10 +16,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import WishList from "./WishList/WishList";
 import { useQuery, gql } from "@apollo/client";
 import Brand from "./Brand/Brand";
-import CompareProduct from "./compareProduct/compareProduct"
+import CompareProduct from "./compareProduct/compareProduct";
 import SignUp from "./SignUp/SignUp";
 import Product from "./ProductDetail/ProductDetail";
-import { ProtectedRoute } from "./Routes/ProtectedRoute"
+import { ProtectedRoute } from "./Routes/ProtectedRoute";
 interface Data {
   id: string;
   name: string;
@@ -58,7 +58,6 @@ const GET_LOCATIONS = gql`
   }
 `;
 
-
 function App() {
   const { loading, error, data } = useQuery(GET_LOCATIONS);
   const [finalProduct, setFinalProduct] = useState<Data[]>(
@@ -69,12 +68,29 @@ function App() {
     //  finalProducts
     []
   ); //type mention
-  const [compareProducts, setcompareProducts] = useState<Data[]>([])
-  const [userInfo, setuserInfo] = useState<string>("")
-  const [token, setToken] = useState<string | null>(null)
+  const [compareProducts, setcompareProducts] = useState<Data[]>([]);
+  const [userInfo, setuserInfo] = useState<string>("");
+  // const [token, setToken] = useState<string | null>(null)
   const Compare = (products: Data) => {
-    setcompareProducts(prevState => [...prevState, products])
-  }
+    setcompareProducts((prevState) => [...prevState, products]);
+  };
+  const removeFromCompare = (productId: string) => {
+    let newCompareList: Data[];
+    if(compareProducts.length>0){
+      newCompareList =compareProducts.map((product) => {
+        if (product.id !== productId) {
+          return product;
+        }
+      }) as Data[];
+    }else{
+      setcompareProducts([])
+      return
+    }
+
+    
+
+    setcompareProducts(newCompareList);
+  };
   // const signOut = () => {
   //   localStorage.clear()
   //   setToken(null)
@@ -188,7 +204,7 @@ function App() {
   ) : (
     <DataContext.Provider
       value={{
-        data: product.slice(itemOffset, endOffset),
+        data:product.slice(itemOffset, endOffset),
         search: search,
         filterApply: applyFilter,
         pageNumber: page,
@@ -196,78 +212,98 @@ function App() {
         userInfo: userInfo,
         // signOut: signOut,
         compareProducts,
-        Compare: Compare
+        Compare: Compare,
+        removeFromCompare
       }}
     >
-      {<>
-        <Routes>
-          <Route path="/home" element={<Layout />}>
-            <Route
-
-              path="/home"
-              element={
-                < ProtectedRoute>
-                  <Main
-                    minPrice={tags.minPrice}
-                    maxPrice={tags.maxPrice}
-                    themes={tags.Theme}
-                    ages={tags.Age}
-
-                  />
-                </ProtectedRoute>
-
-              }
-            />
-            <Route
-
-              path="/home/main"
-              element={
-                < ProtectedRoute>
-                  <Main
-                    minPrice={tags.minPrice}
-                    maxPrice={tags.maxPrice}
-                    themes={tags.Theme}
-                    ages={tags.Age}
-
-                  />
-                </ProtectedRoute>
-
-              }
-            />
-            <Route path="/home/:productId" element={< ProtectedRoute><Product /></ProtectedRoute>} />
-            <Route path="/home/shoppingCart" element={< ProtectedRoute><Cart /></ProtectedRoute>} />
-            <Route
-              path="/home/brand"
-              element={
-                <Brand />
-              }
-            />
-            <Route path="/home/toys" element={< ProtectedRoute><Toys /></ProtectedRoute>} />
-            <Route
-              path="/home/Checkout"
-              element={
-                < ProtectedRoute>
-                  <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
-                    <Checkout />
-                  </Elements>
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/home/wishList" element={< ProtectedRoute><WishList /></ProtectedRoute>} />
-            <Route path="/home/compare" element={< ProtectedRoute><CompareProduct /></ProtectedRoute>} />
-          </Route>
-        </Routes>
-        <Routes>
-          <Route path="/" element={<SignUp/>}>
-          </Route>
-        </Routes>
-      </>
-
-
-
+      {
+        <>
+          <Routes>
+            <Route path="/home" element={<Layout />}>
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Main
+                      minPrice={tags.minPrice}
+                      maxPrice={tags.maxPrice}
+                      themes={tags.Theme}
+                      ages={tags.Age}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home/main"
+                element={
+                  <ProtectedRoute>
+                    <Main
+                      minPrice={tags.minPrice}
+                      maxPrice={tags.maxPrice}
+                      themes={tags.Theme}
+                      ages={tags.Age}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home/:productId"
+                element={
+                  <ProtectedRoute>
+                    <Product />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home/shoppingCart"
+                element={
+                  <ProtectedRoute>
+                    <Cart />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/home/brand" element={<Brand />} />
+              <Route
+                path="/home/toys"
+                element={
+                  <ProtectedRoute>
+                    <Toys />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home/Checkout"
+                element={
+                  <ProtectedRoute>
+                    <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
+                      <Checkout />
+                    </Elements>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home/wishList"
+                element={
+                  <ProtectedRoute>
+                    <WishList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/home/compare"
+                element={
+                  <ProtectedRoute>
+                    <CompareProduct />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+          </Routes>
+          <Routes>
+            <Route path="/" element={<SignUp />}></Route>
+          </Routes>
+        </>
       }
-
-
     </DataContext.Provider>
   );
 }

@@ -14,8 +14,9 @@ import {TagType} from "../types"
     pageNumber: (itemOffset: number, itemsPerPage: number) => void,
     Page:number,
     userInfo:string,
-    compareProducts:Data[]|null,
+    compareProducts:Data[],
     Compare:Function,
+    removeFromCompare:(productId:string)=>void
    //  signOut:()=>void
    }
    export interface Datatype{

@@ -12,13 +12,20 @@ function Content() {
     like.current = !like.current; //useRef
     event.target.style.color = like.current ? "red" : "#5c5f6f";
     let wishItem = JSON.parse(localStorage.getItem("wishedItem")!);
-    const wishItemarray = wishItem ? wishItem.find((item)=>item.id===product.id)?[...wishItem] :[...wishItem,product]: [product];
+    const wishItemarray = wishItem
+      ? wishItem.find((item) => item.id === product.id)
+        ? [...wishItem]
+        : [...wishItem, product]
+      : [product];
     localStorage.setItem("wishedItem", JSON.stringify(wishItemarray));
   };
   const products = useContext(DataContext) as ContType;
-  const CompareProducts=(product)=>{
-    products.Compare(product)
-  }
+  const CompareProducts = (product) => {
+    products.Compare(product);
+  };
+  const removeFromCompare = (productId: string) => {
+    products.removeFromCompare(productId);
+  };
   return (
     <>
       <div className={`row ${styles.cards} `}>
@@ -37,9 +44,7 @@ function Content() {
                 </div>
 
                 <div className={styles.carText}>
-                  <h3 className={styles.vendorCode}>
-                    Vendor Code :
-                  </h3>
+                  <h3 className={styles.vendorCode}>Vendor Code :</h3>
                   <Link
                     style={{ display: "block", margin: "1rem 0" }}
                     to={`/home/${product.id}`}
@@ -48,19 +53,35 @@ function Content() {
                     <h3 className={styles.productName}>
                       {product.name}
                       <br />
-                    
                     </h3>
                   </Link>
                   <p className={styles.price}>Price</p>
                   <h3 className={styles.dollar}>
                     {product.price} $
-                    <span className={styles.strike}>
-                      {product.price}$
-                    </span>
+                    <span className={styles.strike}>{product.price}$</span>
                   </h3>
                 </div>
                 <div className={styles.AddToCompare}>
-                  <button onClick={()=>CompareProducts(product)} style={{background:products.compareProducts?.find(comparedProduct=>comparedProduct.id===product.id)&&"green"}}>{products.compareProducts?.find(comparedProduct=>comparedProduct.id===product.id)?"Added to Compare":"Add to Compare"}</button>
+                  {products.compareProducts.length !==0 ? (
+                    products.compareProducts.find(
+                      (compareProduct) => compareProduct.id === product.id
+                    ) ? (
+                      <button
+                        onClick={() => removeFromCompare(product.id)}
+                        style={{ background: "green" }}
+                      >
+                        Remove from Compare
+                      </button>
+                    ) : (
+                      <button onClick={() => CompareProducts(product)}>
+                        Add to Compare
+                      </button>
+                    )
+                  ) : (
+                    <button onClick={() => CompareProducts(product)}>
+                      Add to Compare
+                    </button>
+                  )}
                 </div>
                 <div
                   className={styles.addToCart}
