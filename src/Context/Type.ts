@@ -16,7 +16,7 @@ import {TagType} from "../types"
     userInfo:string,
     compareProducts:Data[]|null,
     Compare:Function,
-    signOut:()=>void
+   //  signOut:()=>void
    }
    export interface Datatype{
     data:Data[]

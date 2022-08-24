@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import './i18n.ts'
+import { AuthProvider } from "./Authentication/hook/useAuth";
 const client = new ApolloClient({
   uri: "https://demo.saleor.io/graphql/",
   cache: new InMemoryCache(),
@@ -19,7 +20,10 @@ root.render(
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Suspense fallback="...loading">
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+
         </Suspense>
       </BrowserRouter>
     </ApolloProvider>

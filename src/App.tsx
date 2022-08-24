@@ -19,6 +19,7 @@ import Brand from "./Brand/Brand";
 import CompareProduct from "./compareProduct/compareProduct"
 import SignUp from "./SignUp/SignUp";
 import Product from "./ProductDetail/ProductDetail";
+import { ProtectedRoute } from "./Routes/ProtectedRoute"
 interface Data {
   id: string;
   name: string;
@@ -70,19 +71,19 @@ function App() {
   ); //type mention
   const [compareProducts, setcompareProducts] = useState<Data[]>([])
   const [userInfo, setuserInfo] = useState<string>("")
-  const [token,setToken]=useState<string|null>(null)
+  const [token, setToken] = useState<string | null>(null)
   const Compare = (products: Data) => {
     setcompareProducts(prevState => [...prevState, products])
   }
-  const signOut = () => {
-    localStorage.clear()
-    setToken(null)
-    setuserInfo("")
-  }
-  const signIn = (userEmail) => {
-    setuserInfo(userEmail)
-    setToken(localStorage.getItem("AUTH_TOKEN"))
-  }
+  // const signOut = () => {
+  //   localStorage.clear()
+  //   setToken(null)
+  //   setuserInfo("")
+  // }
+  // const signIn = (userEmail) => {
+  //   setuserInfo(userEmail)
+  //   setToken(localStorage.getItem("AUTH_TOKEN"))
+  // }
 
   useEffect(() => {
     if (data) {
@@ -193,63 +194,76 @@ function App() {
         pageNumber: page,
         Page: Math.ceil(product.length / itemsPerPage),
         userInfo: userInfo,
-        signOut: signOut,
+        // signOut: signOut,
         compareProducts,
-        Compare:Compare
+        Compare: Compare
       }}
     >
-      {token? <Routes>
-        <Route path="/" element={<Layout />}>
-
-          <Route
-            index
-            element={
-              <Main
-                minPrice={tags.minPrice}
-                maxPrice={tags.maxPrice}
-                themes={tags.Theme}
-                ages={tags.Age}
-                
-              />
-            }
-          />
-          <Route
-            path="/main"
-            element={
-              <Main
-                minPrice={tags.minPrice}
-                maxPrice={tags.maxPrice}
-                themes={tags.Theme}
-                ages={tags.Age}
-               
-              />
-            }
-          />
-          <Route path="/:productId" element={<Product />} />
-          <Route path="/shoppingCart" element={<Cart />} />
-          <Route
-            path="/brand"
-            element={
-              <Brand />
-            }
-          />
-          <Route path="/toys" element={<Toys />} />
-          <Route
-            path="/Checkout"
-            element={
-              <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
-                <Checkout />
-              </Elements>
-            }
-          />
-          <Route path="/wishList" element={<WishList />} />
-          <Route path="/compare" element={<CompareProduct  />} />
-        </Route>
-      </Routes> :
+      {<>
         <Routes>
-          <Route path="/" element={<SignUp signOut={signOut} signIn={signIn} />}>
+          <Route path="/home" element={<Layout />}>
+            <Route
+
+              path="/home"
+              element={
+                < ProtectedRoute>
+                  <Main
+                    minPrice={tags.minPrice}
+                    maxPrice={tags.maxPrice}
+                    themes={tags.Theme}
+                    ages={tags.Age}
+
+                  />
+                </ProtectedRoute>
+
+              }
+            />
+            <Route
+
+              path="/home/main"
+              element={
+                < ProtectedRoute>
+                  <Main
+                    minPrice={tags.minPrice}
+                    maxPrice={tags.maxPrice}
+                    themes={tags.Theme}
+                    ages={tags.Age}
+
+                  />
+                </ProtectedRoute>
+
+              }
+            />
+            <Route path="/home/:productId" element={< ProtectedRoute><Product /></ProtectedRoute>} />
+            <Route path="/home/shoppingCart" element={< ProtectedRoute><Cart /></ProtectedRoute>} />
+            <Route
+              path="/home/brand"
+              element={
+                <Brand />
+              }
+            />
+            <Route path="/home/toys" element={< ProtectedRoute><Toys /></ProtectedRoute>} />
+            <Route
+              path="/home/Checkout"
+              element={
+                < ProtectedRoute>
+                  <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
+                    <Checkout />
+                  </Elements>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/home/wishList" element={< ProtectedRoute><WishList /></ProtectedRoute>} />
+            <Route path="/home/compare" element={< ProtectedRoute><CompareProduct /></ProtectedRoute>} />
           </Route>
         </Routes>
+        <Routes>
+          <Route path="/" element={<SignUp/>}>
+          </Route>
+        </Routes>
+      </>
+
+
 
       }
 

@@ -26,7 +26,7 @@ function Content() {
           return (
             <div className="col-lg-4 pb-5" key={product.id}>
               <div className={`card ${styles.carItem}`}>
-                <div className={`${styles.image} p-2`}>
+                <div className={`${styles.image} p-5`}>
                   <img src={product.image} alt="card" />
                 </div>
                 <div className={`${styles.like}`}>
@@ -42,7 +42,7 @@ function Content() {
                   </h3>
                   <Link
                     style={{ display: "block", margin: "1rem 0" }}
-                    to={`/${product.id}`}
+                    to={`/home/${product.id}`}
                     key={product.id}
                   >
                     <h3 className={styles.productName}>

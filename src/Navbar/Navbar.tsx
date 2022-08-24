@@ -8,6 +8,8 @@ import { useCart } from "react-use-cart";
 import { useTranslation } from 'react-i18next'
 import { DataContext } from "../Context/Context";
 import ContextType from "../Context/Type";
+import { useAuth } from "../Authentication/hook/useAuth";
+import authType from '../Authentication/hook/AuthType';
 const languages = [
   { value: "chooseLanguage", text: "Language" },
   { value: 'en', text: "English" },
@@ -16,15 +18,14 @@ const languages = [
 ]
 export default function Logo() {
   const { totalUniqueItems, cartTotal } = useCart();
+  const { logout,user} = useAuth() as authType
   const { t } = useTranslation();
-
   const [lang, setLang] = useState('chooselanguage');
   const handleChange = e => {
     setLang(e.target.value);
     let loc = "http://localhost:3000/";
     window.location.replace(loc + "?lng=" + e.target.value);
   }
-  const user = useContext(DataContext) as ContextType;
   return (
     <>
 
@@ -40,7 +41,7 @@ export default function Logo() {
               <div className="col-lg-2">
                 <div className={`${styles.otherItems}`}>
                   <div className={`${styles.otherItemText}`}>
-                    <Link to="/toys">
+                    <Link to="/home/toys">
                       <h3>{t('toys')}</h3>
                     </Link>
                     <div className={`${styles.toolTip}`}>
@@ -55,7 +56,7 @@ export default function Logo() {
               <div className="col-lg-2">
                 <div className={`${styles.otherItems}`}>
                   <div className={`${styles.otherItemText}`}>
-                    <Link to="/main">
+                    <Link to="/home/main">
                       <h3>
                         <i className="fa-solid fa-border-all" /> 
                         {t("catalog")}
@@ -75,7 +76,7 @@ export default function Logo() {
               </div>
               <div className="col-lg-2">
                 <div className={`${styles.otherItems}`}>
-                  <Link to="/brand">
+                  <Link to="/home/brand">
                     <div className={`${styles.otherItemText}`}>
                       <h3>
                         {t("brand")}
@@ -106,8 +107,8 @@ export default function Logo() {
                   <div className={`${styles.otherItemText}`}>
                     <h3>
                       <i className={` ${styles.avater} fa-solid fa-user p-2`} />
-                     {user.userInfo}
-                     <i className="fa fa-sign-out" aria-hidden="true" onClick={user.signOut}></i>
+                     {user.userName}
+                     <i className="fa fa-sign-out" aria-hidden="true" onClick={logout}></i>
                     </h3>
                   </div>
                 </div>
@@ -120,7 +121,7 @@ export default function Logo() {
         <div className="row">
           <div className="col-lg-3">
             <div className={`${styles.secondNavItem}`}>
-              <Link to="/main">
+              <Link to="/home/main">
                 <h3>
                   <i className="fa-solid fa-house p-2" />
                   Main Page
@@ -132,7 +133,7 @@ export default function Logo() {
           </div>
           <div className="col-lg-3">
             <div className={`${styles.secondNavItem}`}>
-              <Link to="/compare">
+              <Link to="/home/compare">
                 <h3>
                   <i
                     className={`fa-solid fa-screwdriver-wrench p-2 ${styles.settings}`}
@@ -147,7 +148,7 @@ export default function Logo() {
           </div>
           <div className="col-lg-3">
             <div className={`${styles.secondNavItem}`}>
-              <Link to="/wishList">
+              <Link to="/home/wishList">
                 <h3>
                   <img
                     src={hearIcon}
@@ -164,7 +165,7 @@ export default function Logo() {
           </div>
           <div className="col-lg-3">
             <div className={`${styles.secondNavItem}`}>
-              <Link to="/shoppingCart">
+              <Link to="/home/shoppingCart">
                 <h3>
                   <img
                     src={products}

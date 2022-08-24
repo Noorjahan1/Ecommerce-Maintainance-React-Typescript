@@ -23,13 +23,12 @@
 
 .image {
     border-bottom: 1px solid #dfdfdf;
-
+    height: 200px;
 }
 
 .image>img {
     height: 100%;
     width: 100%;
-    object-fit: contain
 }
 
 .strike {

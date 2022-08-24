@@ -1,0 +1,28 @@
+[
+    {
+        "userName": "Ayesha",
+        "email": "A@gmail.com",
+        "passsword": "123"
+    },
+    {
+        "userName": "Maria",
+        "email": "B@gmail.com",
+        "passsword": "123"
+    },
+    {
+        "userName": "Irin",
+        "email": "C@gmail.com",
+        "passsword": "123"
+    },
+    {
+        "userName": "Saya",
+        "email": "E@gmail.com",
+        "passsword": "123"
+    },
+    {
+        "userName": "Tonmoy",
+        "email": "H@gmail.com",
+        "passsword": "123"
+    }
+
+]
