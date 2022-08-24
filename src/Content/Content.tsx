@@ -5,6 +5,7 @@ import { DataContext } from "../Context/Context";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import ContType from "../Context/Type";
+import { getProducts } from "../RestAPi/restapi";
 function Content() {
   const like = useRef(false); //fix
   const { addItem, inCart, removeItem } = useCart();
@@ -26,6 +27,7 @@ function Content() {
   const removeFromCompare = (productId: string) => {
     products.removeFromCompare(productId);
   };
+  console.log(products.compareProducts.length)
   return (
     <>
       <div className={`row ${styles.cards} `}>
@@ -62,7 +64,7 @@ function Content() {
                   </h3>
                 </div>
                 <div className={styles.AddToCompare}>
-                  {products.compareProducts.length !==0 ? (
+                  {products.compareProducts.length >0 ? (
                     products.compareProducts.find(
                       (compareProduct) => compareProduct.id === product.id
                     ) ? (

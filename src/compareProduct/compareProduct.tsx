@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { compareProducts } from "../types"
+import * as React from "react";
+import { compareProducts } from "../types";
 import styles from "./compareProduct.module.css";
 import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
-import { DataContext } from '../Context/Context';
-import ContextType from '../Context/Type';
+import { DataContext } from "../Context/Context";
+import ContextType from "../Context/Type";
 function CompareProduct() {
   const products = useContext(DataContext) as ContextType;
   const like = useRef(false); //fix
@@ -14,12 +14,19 @@ function CompareProduct() {
     like.current = !like.current; //useRef
     event.target.style.color = like.current ? "red" : "#5c5f6f";
     let wishItem = JSON.parse(localStorage.getItem("wishedItem")!);
-    const wishItemarray = wishItem ? wishItem.find((item) => item.id === product.id) ? [...wishItem] : [...wishItem, product] : [product];
+    const wishItemarray = wishItem
+      ? wishItem.find((item) => item.id === product.id)
+        ? [...wishItem]
+        : [...wishItem, product]
+      : [product];
     localStorage.setItem("wishedItem", JSON.stringify(wishItemarray));
+  };
+  const removeFromCompare = (productId: string) => {
+    products.removeFromCompare(productId);
   };
   return (
     <>
-      <div className='mx-5 mt-5'>
+      <div className="mx-5 mt-5">
         <div className={`row ${styles.cards}  `}>
           {products.compareProducts?.map((product) => {
             return (
@@ -36,9 +43,7 @@ function CompareProduct() {
                   </div>
 
                   <div className={styles.carText}>
-                    <h3 className={styles.vendorCode}>
-                      Vendor Code :
-                    </h3>
+                    <h3 className={styles.vendorCode}>Vendor Code :</h3>
                     <Link
                       style={{ display: "block", margin: "1rem 0" }}
                       to={`/${product.id}`}
@@ -47,18 +52,24 @@ function CompareProduct() {
                       <h3 className={styles.productName}>
                         {product.name}
                         <br />
-
                       </h3>
                     </Link>
                     <p className={styles.price}>Price</p>
                     <h3 className={styles.dollar}>
                       {product.price} $
-                      <span className={styles.strike}>
-                        {product.price}$
-                      </span>
+                      <span className={styles.strike}>{product.price}$</span>
                     </h3>
                   </div>
-
+                  <div className={styles.AddToCompare}>
+                    
+                        <button
+                          onClick={() => removeFromCompare(product.id)}
+                          style={{ background: "green" }}
+                        >
+                          Remove from Compare
+                        </button>
+                    
+                  </div>
                   <div
                     className={styles.addToCart}
                     style={{
@@ -78,10 +89,9 @@ function CompareProduct() {
           })}
         </div>
       </div>
-
-
     </>
   );
 }
 
 export default CompareProduct;
+

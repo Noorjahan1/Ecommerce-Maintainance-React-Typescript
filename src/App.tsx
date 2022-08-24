@@ -77,20 +77,15 @@ function App() {
   const removeFromCompare = (productId: string) => {
     let newCompareList: Data[];
     if(compareProducts.length>0){
-      newCompareList =compareProducts.map((product) => {
-        if (product.id !== productId) {
-          return product;
-        }
-      }) as Data[];
-    }else{
-      setcompareProducts([])
-      return
+      newCompareList =compareProducts.filter((product) => 
+        product.id !== productId
+      ) as Data[];
+      setcompareProducts(newCompareList);
     }
 
     
-
-    setcompareProducts(newCompareList);
   };
+  console.log(compareProducts)
   // const signOut = () => {
   //   localStorage.clear()
   //   setToken(null)
@@ -100,7 +95,6 @@ function App() {
   //   setuserInfo(userEmail)
   //   setToken(localStorage.getItem("AUTH_TOKEN"))
   // }
-
   useEffect(() => {
     if (data) {
       setProduct(
